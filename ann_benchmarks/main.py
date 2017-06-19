@@ -427,9 +427,9 @@ def get_dataset(which='glove', limit=-1, random_state = 3, test_size = 10000):
     return X_train, X_test
 
 
-def run_algo(args, library, algo, results_fn):
+def run_algo(args, library, algo, queries, results_fn):
     pool = multiprocessing.Pool()
-    X_train, X_test = pool.apply(get_dataset, [args.dataset, args.limit])
+    X_train, _ = pool.apply(get_dataset, [args.dataset, args.limit])
     pool.close()
     pool.join()
 
@@ -662,6 +662,6 @@ if __name__ == '__main__':
     for library, algo in algos_flat:
         print(algo.name, '...')
         # Spawn a subprocess to force the memory to be reclaimed at the end
-        p = multiprocessing.Process(target=run_algo, args=(args, library, algo, results_fn))
+        p = multiprocessing.Process(target=run_algo, args=(args, library, algo, queries, results_fn))
         p.start()
         p.join()
