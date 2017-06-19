@@ -176,7 +176,9 @@ class AnnoySparseHash(BaseANN):
 
 
 def parse(idx_val):
-    parts = idx_val.split(':')
+    parts = idx_val.split()
+    if len(parts) != 2:
+        parts = idx_val.split(':')
     return [int(parts[0]), float(parts[1])]
 
 
